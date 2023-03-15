@@ -37,30 +37,32 @@ npm run start
 npm run test:integration
 ```
 
-# Postman
+# Endpoint Documentation
 
-We are using Postman for integration tests.<br>
-The following video is very helpful for understanding how Postman works with GitHub:<br>
-[![Postman Tutorial](https://img.youtube.com/vi/cB7mCuYeuAU/0.jpg)](https://www.youtube.com/watch?v=cB7mCuYeuAU)<br>
+### GET newGame endpoint:<br>
+Creates a newGame for the user.<br>
+Example:<br>
+method: GET<br>
+url: ```http://localhost:2901/api/v1/newGame?difficulty=1``` <br>
+Header: ```Authorization: "Bearer " + accessToken``` <br>
 
-### Below is an example structure for tests based on Puzzle endpoint
-The Postman tests are structured based on the endpoint name, the type of request, and the expected response code<br>
+Returns: <br>
+```json
+[
+    {
+        "userID": "auth0|639440c8f2906775079c7254",
+        "puzzle": "310084002200150006570003010423708095760030000009562030050006070007000900000001500",
+        "currentTime": 0,
+        "numHintsAskedFor": 0,
+        "numWrongCellsPlayed": 0,
+        "_id": "641109a19a155b57126fe647",
+        "moves": [],
+        "__v": 0
+    }
+]
+```
+puzzle can be accessed by the following:<br>
+```response[0].puzzle``` <br>
 
-![postman_structure.png](Documentation/images/postmanStructure.png)<br>
 
-This structure allows us to write test cases for the Code 400 folder which would be run for all tests in that folder.<br>
-<br>
-All tests for the Sudokuru-Backend have access to the Sudokuru-Backend Pre-request scripts and tests.<br>
-We currently have a Pre-request script that deletes the whole database before every test.<br>
-We also have a function that can be used for all DELETE requests to validate the response.<br>
 
-![backend_pre_request_scripts.png](Documentation/images/Backend-Pre-Request-Scripts.png)<br>
-
-#### Inside the Puzzle endpoint folder we have shared functions to validate a puzzle response and to generate shared puzzle JSON for Pre-Request scripts for other tests.<br>
-
-![puzzle_response_checker.png](Documentation/images/puzzle_response_checker.png)<br>
-#### The below functions take in an integer and return either valid JSON or an object for reference.<br>
-![shared_puzzles_for_tests.png](Documentation/images/shared_puzzles_for_tests.png)<br>
-
-#### Inside the "Code 201" folder we have a test case that will be run for all tests inside of the folder.<br>
-![shared_response_code_test.png](Documentation/images/shared_response_code_test.png)<br>
